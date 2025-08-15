@@ -37,6 +37,7 @@ func main() {
 	}
 
 	animeMainPageLink := searchResult[userSelection].Link
+	animeName := searchResult[userSelection].Name
 	epCount, downloadPageLink := scraper.GetDownloadInfo(animeMainPageLink)
 	mainDlLink := scraper.GetDirectDlLink(downloadPageLink)
 
@@ -46,7 +47,7 @@ func main() {
 
 	directDlLinks := getDirectDlLinksSlice(epCount, mainDlLink)
 
-	filename := strings.Replace(searchResult[userSelection].Name, " ", "_", -1) 
+	filename := strings.Replace(animeName, " ", "_", -1) 
 	for i, link := range directDlLinks {
 		fmt.Printf("[DL]: %s\n", link) 
 		filepath := outputDir + filename + "_" + strconv.Itoa(i+1) + ".mp4"
