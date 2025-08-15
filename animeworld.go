@@ -30,7 +30,11 @@ func main() {
 
 	fmt.Print("input: ")
 	var userSelection int
-	fmt.Scan(&userSelection)
+	_, err := fmt.Scan(&userSelection)
+	if err != nil || userSelection < 0 || userSelection >= len(searchResult) {
+		fmt.Println("Invalid input")
+		os.Exit(1)
+	}
 
 	animeMainPageLink := searchResult[userSelection].Link
 	epCount, downloadPageLink := scraper.GetDownloadInfo(animeMainPageLink)
