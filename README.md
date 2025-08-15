@@ -21,7 +21,7 @@ The tool follows a multi-step scraping process:
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/your-username/animeworlddl.git
+    git clone https://github.com/alem633/animeworlddl.git
     cd animeworlddl
     ```
 
