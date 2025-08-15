@@ -11,10 +11,14 @@ import (
 	"scraper/animeworld_dl/scraper"
 )
 
+const outputDir = "out/"
+
 func main() {
 	if len(os.Args) < 2 {
+		fmt.Println("missing search query")
 		os.Exit(1)
 	}
+	makeOutputDir()
 	query := os.Args[1]
 
 	searchResult := []scraper.Anime{}
@@ -41,7 +45,7 @@ func main() {
 	filename := strings.Replace(searchResult[userSelection].Name, " ", "_", -1) 
 	for i, link := range directDlLinks {
 		fmt.Printf("[DL]: %s\n", link) 
-		filepath := "out/" + filename + "_" + strconv.Itoa(i+1) + ".mp4"
+		filepath := outputDir + filename + "_" + strconv.Itoa(i+1) + ".mp4"
 		err := DownloadFile(filepath, link)
 		if err != nil {
 			fmt.Println("invalid")
@@ -97,4 +101,18 @@ func epNumberFormatter(epNumber int, epCount int) string {
 	format := fmt.Sprintf("%%0%dd", paddingWidth)
 
 	return fmt.Sprintf(format, epNumber)
+}
+
+func makeOutputDir() {
+	if _, err := os.Stat(outputDir); os.IsNotExist(err) {
+		fmt.Printf("Directory '%s' not found, running mkdir.\n", outputDir)
+		err := os.Mkdir(outputDir, 0755)
+		if err != nil {
+			fmt.Printf("Error during os.Mkdir: %s\n", err)
+			return
+		}
+		fmt.Printf("Directory '%s' successfully made.\n", outputDir)
+	} else {
+		fmt.Printf("Directory '%s' found.\n", outputDir)
+	}
 }
